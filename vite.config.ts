@@ -5,16 +5,19 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  server: {
-    host: "::",
-    port: 8080,
-    allowedHosts: ["portfolio-ahmad-alkawssar-toure.onrender.com"],
-  },
-  
-  plugins: [react(), mode === "production" && componentTagger()].filter(Boolean),
+  plugins: [
+    react(),
+    // On active componentTagger uniquement en développement
+    mode === "development" && componentTagger(),
+  ].filter(Boolean),
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+
+  build: {
+    outDir: "dist", // Dossier que Render va servir
   },
 }));
