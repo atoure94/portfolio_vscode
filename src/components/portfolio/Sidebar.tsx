@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronRight, File, FolderOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, File, FolderOpen, X } from 'lucide-react';
 import { useState } from 'react';
 
 interface SidebarProps {
@@ -7,8 +7,9 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
-  const [isOpen, setIsOpen] = useState(true);
-  
+  const [isFolderOpen, setIsFolderOpen] = useState(true);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
   const files = [
     { name: 'about.tsx', type: 'file', active: activeTab === 'about' },
     { name: 'projects.tsx', type: 'file', active: activeTab === 'projects' },
@@ -16,30 +17,37 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
     { name: 'contact.tsx', type: 'file', active: activeTab === 'contact' },
   ];
 
+  if (!isSidebarVisible) return null;
+
   return (
-    <div className="w-80 bg-vscode-sidebar border-r border-border flex flex-col">
+    <div className="w-80 bg-vscode-sidebar border-r border-border flex flex-col relative">
+      {/* Croix visible seulement sur petits écrans */}
+      <button
+        onClick={() => setIsSidebarVisible(false)}
+        className="absolute top-2 right-2 p-1 sm:hidden text-muted-foreground hover:text-foreground"
+        aria-label="Fermer le menu"
+      >
+        <X size={16} />
+      </button>
+
       <div className="p-2 border-b border-border">
         <div className="text-xs uppercase tracking-wide text-muted-foreground font-semibold">
           Explorer
         </div>
       </div>
-      
+
       <div className="flex-1 overflow-auto">
         <div className="p-2">
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsFolderOpen(!isFolderOpen)}
             className="flex items-center gap-1 text-sm font-medium text-foreground hover:bg-vscode-tab-active w-full p-1 rounded"
           >
-            {isOpen ? (
-              <ChevronDown size={14} />
-            ) : (
-              <ChevronRight size={14} />
-            )}
+            {isFolderOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
             <FolderOpen size={14} />
             PORTFOLIO
           </button>
-          
-          {isOpen && (
+
+          {isFolderOpen && (
             <div className="ml-4 mt-1 space-y-0.5">
               {files.map((file) => (
                 <button
@@ -48,8 +56,8 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
                   className={`
                     flex items-center gap-2 text-sm p-1 rounded w-full text-left
                     transition-colors duration-200
-                    ${file.active 
-                      ? 'bg-vscode-tab-active text-foreground' 
+                    ${file.active
+                      ? 'bg-vscode-tab-active text-foreground'
                       : 'text-muted-foreground hover:bg-vscode-tab-active hover:text-foreground'
                     }
                   `}
