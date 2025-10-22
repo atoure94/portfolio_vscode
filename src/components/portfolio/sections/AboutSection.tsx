@@ -97,10 +97,10 @@ export default developer;`;
       </p>
     </div>
 
-    <div className="mt-6 p-4 bg-vscode-sidebar rounded border border-border">
+    <div className="mt-6 p-4 bg-vscode-sidebar rounded border border-border mb-8">
       <h3 className="text-lg font-semibold mb-4 text-vscode-blue">Lien vers mon CV</h3>
       <a
-        href="https://example.com/mon-cv.pdf" // Remplace ce lien par l’URL réelle
+        href="https://drive.google.com/drive/folders/1RdmLXHHQHjUJAWySuW_fbgKDECQFqjED?usp=sharing" 
         target="_blank"
         rel="noopener noreferrer"
         className="text-vscode-green underline hover:text-vscode-blue transition"
